@@ -4,9 +4,13 @@ const cors = require('cors');
 const connectDB = require('./db');
 const authRoutes = require('./routes/auth');
 const taskRoutes = require('./routes/tasks');
+const helmet = require('helmet');
 require('dotenv').config();
 
 const app = express();
+
+// Use Helmet to set secure HTTP headers
+app.use(helmet());
 
 // Middleware
 app.use(cors());

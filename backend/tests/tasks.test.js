@@ -75,7 +75,7 @@ describe('Task Management', () => {
             });
 
         expect(response.statusCode).toBe(400); // Bad request
-        expect(response.body).toHaveProperty('error');
+        expect(response.body).toHaveProperty('errors');
     });
 
     test('It should retrieve all tasks for the authenticated user', async () => {

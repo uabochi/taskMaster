@@ -3,6 +3,14 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const router = express.Router();
+const rateLimit = require('express-rate-limit');
+
+// Set up rate limiter
+const loginLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 5, // Limit each IP to 5 requests per windowMs
+    message: 'Too many login attempts, please try again later.',
+  });
 
 // Register User
 router.post('/register', async (req, res) => {
@@ -25,7 +33,7 @@ router.post('/register', async (req, res) => {
 });
 
 // Login User
-router.post('/login', async (req, res) => {
+router.post('/login', loginLimiter, async (req, res) => {
     const { email, password } = req.body;
 
     try {
