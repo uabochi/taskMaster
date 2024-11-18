@@ -4,6 +4,10 @@ const Task = require('../models/Task');
 const createTask = async (req, res) => {
     const { title, description, priority, deadline } = req.body;
 
+    if (!title) {
+        return res.status(400).json({ error: 'Title is required' });
+    }
+
     try {
         const task = new Task({
             user: req.user.id, // From auth middleware
