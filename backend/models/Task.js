@@ -22,11 +22,18 @@ const TaskSchema = new mongoose.Schema({
     },
     deadline: {
         type: Date,
+        get: (value) => {
+            // Return the date in 'YYYY-MM-DD' format
+            return value ? value.toISOString().split('T')[0] : value;
+        },
     },
     createdAt: {
         type: Date,
         default: Date.now,
     },
 });
+
+// Ensure the `get` method is used when returning data
+TaskSchema.set('toJSON', { getters: true });
 
 module.exports = mongoose.model('Task', TaskSchema);
